@@ -1,8 +1,8 @@
 {
-  "name": "gtp-select",
-  "displayName": "Gtp select",
+  "name": "gpt-bot",
+  "displayName": "Gpt Bot",
   "version": "0.0.1",
-  "description": "get gtp content by you select some element",
+  "description": "get gpt content by you select some element",
   "author": "kkkkh",
   "scripts": {
     "dev": "plasmo dev",
@@ -24,8 +24,11 @@
     "typescript": "5.3.3"
   },
   "manifest": {
-    "host_permissions": [
-      "https://*/*"
-    ]
+    "manifest_version": 3,
+    "name": "ChatGPT Answer Exporter",
+    "version": "0.0.1",
+    "permissions": ["storage", "scripting", "activeTab"],
+    "host_permissions":["https://*/*"],
+    "action": {}
   }
 }
