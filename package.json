@@ -25,10 +25,10 @@
   },
   "manifest": {
     "manifest_version": 3,
-    "name": "ChatGPT Answer Exporter",
+    "name": "gpt-bot",
     "version": "0.0.1",
     "permissions": ["storage", "scripting", "activeTab"],
-    "host_permissions":["https://*/*"],
+    "host_permissions":["https://chatgpt.com/*"],
     "action": {}
   }
 }

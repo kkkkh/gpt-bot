@@ -2,7 +2,9 @@
 const CONFIG = {
   CHECKBOX_BG: "#FF3F7F",
   CONTENT_BG: "#FFC400",
-  CONTENT_BORDER: "#FAA533"
+  CONTENT_BORDER: "#FAA533",
+  COPY_BUTTON_BG: "#FAA533",
+  CLEAR_BUTTON_BG: "#EBEBEB",
 }
 
 const observerMain = (main: HTMLElement) => {
@@ -79,11 +81,13 @@ const scan = (main: HTMLElement) => {
     for (const article of articles) {
       const markdownDiv = article.querySelector(".markdown");
       if (!markdownDiv) continue;
-      const tags = ["P", "H1", "H2", "H3", "H4", "H5","PRE"];
+      const tags = ["p", "h1", "h2", "h3", "h4", "h5","pre","blockquote"];
+      const liTags = ["ul", "ol"]
       Array.from(markdownDiv.children).forEach((element: Element) => {
-        if (tags.includes(element.tagName)) {
+        const tagName = element.tagName.toLowerCase()
+        if (tags.includes(tagName)) {
           observeNode(element)
-        }else if(element.tagName === 'UL'){
+        }else if(liTags.includes(tagName)){
           Array.from(element.children).forEach((element: Element) => {
             observeNode(element)
           })
@@ -93,25 +97,75 @@ const scan = (main: HTMLElement) => {
   }
 }
 
-const createButton = () =>{
+const createOperate = (main)=>{
+  const area = document.createElement("div")
+  area.style.position = "absolute"
+  area.style.right = "0"
+  area.style.color = "#FFF"
+  area.style.bottom = "0"
+  area.style.transform = "translate(-200px, -200px)"
+  area.style.zIndex = "100"
+  const copyButton = addCopyButton(main)
+  const clearButton = addClearButton(main)
+  area.append(copyButton,clearButton)
+  return area
+}
+
+
+const createClearButton = () =>{
   const checkbox = document.createElement("button")
   checkbox.className = "bot_button"
-  checkbox.textContent = "copy"
-  checkbox.style.position = "absolute"
-  checkbox.style.right = "0"
+  checkbox.style.color = "#323232"
+  checkbox.textContent = "clear"
+  checkbox.style.background = CONFIG.CLEAR_BUTTON_BG // ✅ 支持颜色
+  checkbox.style.cursor = "pointer"
+  checkbox.style.padding ="4px 10px"
+  checkbox.style.margin ="0px 4px"
+  return checkbox
+}
+const createCopyButton = () =>{
+  const checkbox = document.createElement("button")
+  checkbox.className = "bot_button"
   checkbox.style.color = "#FFF"
-  checkbox.style.bottom = "0"
-  checkbox.style.transform = "translate(-200px, -200px)"
-  checkbox.style.zIndex = "100"
-  checkbox.style.background = CONFIG.CHECKBOX_BG // ✅ 支持颜色
+  checkbox.textContent = "copy"
+  checkbox.style.background = CONFIG.COPY_BUTTON_BG // ✅ 支持颜色
   checkbox.style.cursor = "pointer"
   checkbox.style.padding ="4px 10px"
   return checkbox
 }
 
+const addClearButton = (main)=>{
+  const button = createClearButton()
+  button.addEventListener("click", ()=>{
+    const checkboxes = main.querySelectorAll(".bot_checkbox")
+    for (const checkbox of checkboxes) {
+      checkbox.checked = false
+    }
+  })
+  return button
+}
+
+const addCopyButton = (main)=>{
+  const button = createCopyButton()
+  button.addEventListener("click", ()=>{
+    const checkboxes = main.querySelectorAll(".bot_checkbox")
+      const text = [...checkboxes].map((checkbox:HTMLInputElement)=>{
+      if(!checkbox.checked) return false
+      const parent = checkbox.parentElement
+      // 新增方法，将 parent 的 tagName 转为对应的 Markdown 语法
+      return elementToMarkdown(parent);
+    }).filter((item): item is string => Boolean(item))
+    var promise = navigator.clipboard.writeText(text.join('\n'))
+    promise.then(()=>{
+      // window.prompt("复制成功！");
+    })
+  })
+  return button
+}
+
 const  elementToMarkdown = (element: Element) => {
   const tag = element.tagName;
-  const text = element.textContent || "";
+  const text = element.textContent.trim() || "";
   switch (tag) {
     case "H1":
       return `# ${text}`;
@@ -129,35 +183,22 @@ const  elementToMarkdown = (element: Element) => {
       return `- ${text}`;
     case "PRE":
       const [lang,code] = text.split("复制代码")
-      return `\`\`\`${lang}\n${text}\n\`\`\``;
+      return `\`\`\`${lang}\n${code}\n\`\`\``;
     default:
       return text;
   }
 }
 
-const copy = (main:HTMLElement)=>{
-  const button = createButton()
-  button.addEventListener("click", ()=>{
-    const checkboxes = main.querySelectorAll(".bot_checkbox")
-      const text = [...checkboxes].map((checkbox:HTMLInputElement)=>{
-      if(!checkbox.checked) return false
-      const parent = checkbox.parentElement
-      // 新增方法，将 parent 的 tagName 转为对应的 Markdown 语法
-      return elementToMarkdown(parent);
-    }).filter((item): item is string => Boolean(item))
-    var promise = navigator.clipboard.writeText(text.join('\n'))
-    promise.then(()=>{
-      // window.prompt("复制成功！");
-    })
-  })
-  main.append(button)
+const operate = (main:HTMLElement)=>{
+  const operateArea = createOperate(main)
+  main.append(operateArea)
 }
 
 function start() {
   const main = document.getElementById("main")
   if (!main) return
   scan(main)
-  copy(main)
+  operate(main)
   // observerMain(main)
 }
 
