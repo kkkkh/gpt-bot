@@ -10,6 +10,8 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@viselect/vanilla": "^3.9.0",
+    "just-debounce": "^1.1.0",
     "plasmo": "0.90.5",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -27,8 +29,14 @@
     "manifest_version": 3,
     "name": "gpt-bot",
     "version": "0.0.1",
-    "permissions": ["storage", "scripting", "activeTab"],
-    "host_permissions":["https://chatgpt.com/*"],
+    "permissions": [
+      "storage",
+      "scripting",
+      "activeTab"
+    ],
+    "host_permissions": [
+      "https://chatgpt.com/*"
+    ],
     "action": {}
   }
 }

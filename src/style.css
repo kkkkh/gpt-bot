@@ -1,10 +1,10 @@
 
-:root {
+/* :root {
   --check-color: "#FF3F7F"
 }
 
 .bot_checkbox {
-  appearance: none; /* ✅ 关键：移除浏览器默认checkbox */
+  appearance: none;
   width: 16px;
   height: 16px;
   border: 2px solid #aaa;
@@ -14,10 +14,21 @@
   right: 0;
   top:0;
   transform:translateX(110%);
-  /* accent-color: var(--check-color); */
+  accent-color: var(--check-color); 
   cursor:pointer;
 }
 
 .bot_checkbox:focus{
   outline: none !important;
+} */
+
+.selection-area {
+  background: rgba(46, 115, 252, 0.11);
+  border: 1px solid rgba(98, 155, 255, 0.85);
+  border-radius: 0.15em;
+}
+.selected{
+  background-color: #FFE797;
+  border:#FAA533 1px dashed;
+  box-sizing: border-box;
 }
