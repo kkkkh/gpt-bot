@@ -5,16 +5,19 @@
   "description": "get gpt content by you select some element",
   "author": "kkkkh",
   "scripts": {
-    "dev": "plasmo dev",
+    "all": "concurrently \"pnpm build:css --watch\" \"plasmo dev\"",
+    "dev":"plasmo dev --serve",
     "build": "plasmo build",
-    "package": "plasmo package"
+    "package": "plasmo package",
+    "build:css": "tailwindcss-windows-x64.exe -i ./src/styles/tailwind.css -o ./src/styles/tailwind.output.css --content ./src/**/*.{js,ts,jsx,tsx,html}  --config ./tailwind.config.js --watch"
   },
   "dependencies": {
     "@viselect/vanilla": "^3.9.0",
     "just-debounce": "^1.1.0",
     "plasmo": "0.90.5",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "tailwindcss": "^4.1.17"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
@@ -22,6 +25,7 @@
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
+    "concurrently": "^9.2.1",
     "prettier": "3.2.4",
     "typescript": "5.3.3"
   },

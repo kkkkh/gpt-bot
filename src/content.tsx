@@ -1,6 +1,28 @@
-import "./style.css"
+import "./styles/style.css"
+// import styleText from "data-text:~/styles/tailwind.css"
+import styleText from "data-text:~/styles/tailwind.output.css"
 import debounce from "just-debounce";
 import SelectionArea from "@viselect/vanilla";
+import { useEffect, useRef, useState } from "react"
+
+export const getStyle = (): HTMLStyleElement => {
+  const baseFontSize = 16
+
+  let updatedCssText = styleText.replaceAll(":root", ":host(plasmo-csui)")
+  const remRegex = /([\d.]+)rem/g
+  updatedCssText = updatedCssText.replace(remRegex, (match, remValue) => {
+    const pixelsValue = parseFloat(remValue) * baseFontSize
+
+    return `${pixelsValue}px`
+  })
+
+  const styleElement = document.createElement("style")
+
+  styleElement.textContent = updatedCssText
+
+  return styleElement
+}
+
 
 const CONFIG = {
   CHECKBOX_BG: "#FF3F7F",
@@ -9,8 +31,6 @@ const CONFIG = {
   COPY_BUTTON_BG: "#FAA533",
   CLEAR_BUTTON_BG: "#EBEBEB",
 }
-
-
 
 const createCheckBox = () => {
   const checkbox = document.createElement("input")
@@ -294,12 +314,22 @@ const observerMain = (main: HTMLElement) => {
 
 setTimeout(() => {
   start()
-}, 1000)
+}, 1500)
 
-export default ()=>{
-  return <>
-    <div style={{position:"absolute",right:0,color:"#FFF",bottom:0,zIndex:100}}>
-      11111111111111111
+
+export default function UI() {
+  const [isActive, setActive] = useState(true)
+  const activeHandle = () => {
+    setActive(!isActive)
+  }
+  return (
+    <div className="fixed bottom-1/12 right-1/12 z-[9999]">
+      <button
+        onClick={activeHandle}
+        className={`px-4 py-1 text-white rounded ${isActive ? 'bg-gray-500':'bg-cyan-500'} `}
+      >
+        {isActive ? '关闭' : '激活'}
+      </button>
     </div>
-  </>
+  )
 }

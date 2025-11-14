@@ -28,7 +28,7 @@
   border-radius: 0.15em;
 }
 .selected{
-  background-color: #FFE797;
-  border:#FAA533 1px dashed;
-  box-sizing: border-box;
+  background-color: #FFE797 !important;
+  border:#FAA533 1px dashed !important;
+  box-sizing: border-box !important;
 }
