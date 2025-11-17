@@ -1,9 +1,13 @@
 module.exports = {
   content: [
-    "./src/**/*.{js,ts,jsx,tsx,html}", // 扫描你的源码文件
+    "src/**/*.{js,ts,jsx,tsx,html}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        theme: "var(--color-theme)",
+      },
+    }
   },
-  plugins: [],
+  plugins: []
 }

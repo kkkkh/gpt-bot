@@ -1,4 +1,13 @@
 /* @import "tailwindcss/preflight";
 @tailwind utilities; */
 
-@import "tailwindcss"
+@import "tailwindcss";
+
+
+@theme{
+  --color-theme: #FAA533;
+}
+
+@config "../../tailwind.config.js"
+
+

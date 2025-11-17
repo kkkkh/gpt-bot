@@ -6,7 +6,7 @@
   "author": "kkkkh",
   "scripts": {
     "all": "concurrently \"pnpm build:css --watch\" \"plasmo dev\"",
-    "dev":"plasmo dev --serve",
+    "dev": "plasmo dev",
     "build": "plasmo build",
     "package": "plasmo package",
     "build:css": "tailwindcss-windows-x64.exe -i ./src/styles/tailwind.css -o ./src/styles/tailwind.output.css --content ./src/**/*.{js,ts,jsx,tsx,html}  --config ./tailwind.config.js --watch"
